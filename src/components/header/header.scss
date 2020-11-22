@@ -1,0 +1,33 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 0 22px 0 22px;
+  height: 80px;
+  font-size:22px;
+  .signIn, .signUp{
+    width: 109px;
+    height: 51px;
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .signUp{
+    color:#52C41A;
+    border: 1px solid #52C41A;
+    border-radius: 5px;
+    transition: .4s background;
+  }
+  .signUp:hover{
+    color:#fff;
+    background: #52C41A;
+    border:#fff;
+  }
+  .signIn{
+    margin-right: 9px;
+  }
+}

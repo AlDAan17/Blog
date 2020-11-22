@@ -1,0 +1,75 @@
+.article {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 14px 24px 19px;
+  background: #fff;
+  margin: 26px auto 0;
+  max-width: 941px;
+  border-radius: 5px;
+
+  .left{
+    width: 79%;
+  }
+
+  .right{
+    margin-left: 20px;
+    display: flex;
+  }
+
+  .article__head {
+    font-weight: normal;
+    font-size: 20px;
+    color: #1890FF;
+    margin-right: 13px;
+  }
+  .article__tag{
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 4px;
+    margin: 3px 5px 7px 0;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+  }
+
+  .article__data{
+    margin-right: 12px;
+  }
+
+  .article__data-name{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .article__avatar-item{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-left: 12px;
+  }
+
+  .article__data-birth{
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .heart {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("../../icons/heart-passive.png") no-repeat;
+    transform: translate(0px, 2px);
+    margin-right: 5px;
+  }
+
+  .heart__checkbox {
+    margin: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+
+    &:checked ~ .heart {
+      background: url("../../icons/heart-active.png") no-repeat;
+    }
+  }
+}
