@@ -4,8 +4,7 @@ import {Link} from 'react-router-dom';
 import {format} from 'date-fns';
 // import { Pagination } from 'antd';
 
-const Article = ({title, description, tagList, favoritesCount, author, createdAt, slug, body, key}) => {
-    console.log(key)
+const Article = ({title, description, tagList, favoritesCount, author, createdAt, slug, body}) => {
     return (
         <React.Fragment>
             <div className="article">

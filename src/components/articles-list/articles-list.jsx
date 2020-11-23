@@ -1,29 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './articles-list.scss';
 import 'antd/dist/antd.css';
 import Article from "../article";
-// import {Pagination} from "antd";
-import testService from './../services/test-service';
+import {Pagination} from "antd";
 
-const ArticlesList = ({match}) => {
-    const articles = testService();
-    const slug = match.params.slug;
-    console.log(slug)
-    if (slug) {
-        const article = articles.find((article) => article.slug === slug);
-        return <Article {...article}/>
-    }
+const ArticlesList = ({asyncGetArticlesWithDispatch, articles, page, successfullDownload, error}) => {
 
-    const elements = articles.map((article) => <Article key={article.slug} {...article}/> );
-    console.log('elements', elements)
-    return <div>{elements}</div>
+    useEffect(() => {
+        asyncGetArticlesWithDispatch(1);
+    }, []);
 
-    // return (
-    //     <div className="container">
-    //         <Article/>
-    //         <Pagination defaultCurrent={1} total={50} className="pagination"/>
-    //     </div>
-    // )
+
+    const elements = articles.map((article) => {
+        return <Article key={article.slug} {...article} isList={true}/>
+    });
+    return (
+
+        <div>
+            {elements}
+            <Pagination current={page} pageSize={10} total={500} showSizeChanger={false} size="small" className="pagination" onChange={asyncGetArticlesWithDispatch} />
+        </div>
+    )
 }
 
 export default ArticlesList;
