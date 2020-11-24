@@ -5,29 +5,29 @@ header{
   background: #fff;
   padding: 0 22px 0 22px;
   height: 80px;
-  font-size:22px;
-  .signIn, .signUp{
+  font-size:18px;
+  .sign-in, .sign-up{
     width: 109px;
     height: 51px;
-    padding: 0;
+    padding: 6px 18px 10px;
     border: none;
     font: inherit;
     color: inherit;
     background-color: transparent;
     cursor: pointer;
   }
-  .signUp{
+  .sign-up{
     color:#52C41A;
     border: 1px solid #52C41A;
     border-radius: 5px;
     transition: .4s background;
   }
-  .signUp:hover{
+  .sign-up:hover{
     color:#fff;
     background: #52C41A;
     border:#fff;
   }
-  .signIn{
+  .sign-in{
     margin-right: 9px;
   }
 }
