@@ -2,7 +2,8 @@ import React, {useEffect} from "react";
 import './articles-list.scss';
 import 'antd/dist/antd.css';
 import Article from "../article";
-import {Pagination} from "antd";
+import {Pagination, Spin} from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
 
 const ArticlesList = ({asyncGetArticlesWithDispatch, articles, page, successfullDownload, error}) => {
 
@@ -10,6 +11,9 @@ const ArticlesList = ({asyncGetArticlesWithDispatch, articles, page, successfull
         asyncGetArticlesWithDispatch(1);
     }, []);
 
+    if(!successfullDownload){
+        return <LoadingOutlined className="spinner" spin />;
+    }
 
     const elements = articles.map((article) => {
         return <Article key={article.slug} {...article} isList={true}/>

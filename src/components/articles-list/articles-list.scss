@@ -1,11 +1,13 @@
-.container{
-  //background: #EBEEF3;
-}
-
 .pagination {
-  //text-align: center;
   margin: 26px 0 !important;
   text-align: center;
-  //margin-top: 20px;
-  //margin-bottom: 30px;
+}
+
+.spinner {
+  font-size: 70px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
 }
