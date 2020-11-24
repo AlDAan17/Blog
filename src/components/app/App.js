@@ -9,19 +9,17 @@ import ArticlePageContainer from '../../containers/article-page-container';
 const App = () => {
     return (
         <Router>
-            <React.Fragment>
-                <Header/>
-                <Switch>
-                    <Route path='/articles/:slug' component={ArticlePageContainer}/>
-                    {/*<Route path='/articles' component={ArticlesListContainer}/>*/}
-                    {/*<Route exact path='/' component={ArticlesListContainer}/>*/}
-                    <Route exact path={['/', '/articles']} render={() => {
+            <Header/>
+            <Switch>
+                <Route path='/articles/:slug' component={ArticlePageContainer}/>
+                {/* <Route path='/articles' component={ArticlesListContainer}/> */}
+                {/* <Route exact path='/' component={ArticlesListContainer}/> */}
+                <Route exact path={['/', '/articles']} render={() => {
 
-                        return <ArticlesListContainer />
-                    }}/>
-                    {/*<Route exact path={['/', '/articles', '/articles/:slug']} component={ArticlesList}/>*/}
-                </Switch>
-            </React.Fragment>
+                    return <ArticlesListContainer/>
+                }}/>
+                {/* <Route exact path={['/', '/articles', '/articles/:slug']} component={ArticlesList}/> */}
+            </Switch>
         </Router>
     );
 }

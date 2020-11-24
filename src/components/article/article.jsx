@@ -1,12 +1,18 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import './article.scss';
 import {Link} from 'react-router-dom';
 import {format} from 'date-fns';
+import Markdown from "markdown-to-jsx";
 // import { Pagination } from 'antd';
+
+const mapTags = (tags) => {
+    return tags.map((tag) => <p className="article__tag">{tag}</p>)
+}
 
 const Article = ({title, description, tagList, favoritesCount, author, createdAt, slug, body}) => {
     return (
-        <React.Fragment>
+        <>
             <div className="article">
                 <div className="article__item">
                     <div className="left">
@@ -32,14 +38,28 @@ const Article = ({title, description, tagList, favoritesCount, author, createdAt
                         </div>
                     </div>
                 </div>
-                <div className="article__text">{body}</div>
+                <Markdown>{body}</Markdown>
             </div>
-        </React.Fragment>
+        </>
     )
 }
 
-const mapTags = (tags) => {
-    return tags.map((tag) => <p className="article__tag">{tag}</p>)
-}
+
+
+Article.propTypes = {
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    tagList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    favoritesCount: PropTypes.number.isRequired,
+    author: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        bio: PropTypes.string,
+        image: PropTypes.string.isRequired,
+        following: PropTypes.bool.isRequired,
+    }).isRequired,
+    createdAt: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+};
 
 export default Article;
