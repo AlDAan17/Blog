@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './sign-in.scss';
 import "antd/dist/antd.css";
-import { Form, Input, Checkbox, Button } from "antd";
-import {Link} from "react-router-dom";
+import {Form, Input, Checkbox, Button, Alert} from "antd";
+import {Link, Redirect} from "react-router-dom";
 
 const formItemLayout = {
     labelCol: {
@@ -20,12 +20,23 @@ const tailFormItemLayout = {
     }
 };
 
-const SignIn = () => {
+const SignIn = ({ asyncAuthenticationWithDispatch, serverValidations, beginningWithDispatch, user }) => {
+
+    useEffect(() => {
+        return beginningWithDispatch;
+    }, []);
+
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
+    const onFinish = ({email, password}) => {
+        asyncAuthenticationWithDispatch(email, password);
     };
+
+    if (Object.keys(user).length) {
+        return <Redirect to='/' />;
+    }
+
+
     return (
         <Form
             {...formItemLayout}
@@ -35,6 +46,7 @@ const SignIn = () => {
             onFinish={onFinish}
             scrollToFirstError
         >
+            {serverValidations && <Alert message={serverValidations} type="warning" showIcon style={{marginBottom:30}} />}
             <h2>Sign in</h2>
             <Form.Item
                 name="email"
@@ -71,7 +83,7 @@ const SignIn = () => {
 
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" block  htmlType="submit">
-                    Register
+                    Login
                 </Button>
                 <p className="have-an-account">Don’t have an account? <Link to="/sign-up">Sign Up.</Link></p>
             </Form.Item>

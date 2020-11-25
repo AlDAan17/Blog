@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './sign-up.scss';
 import "antd/dist/antd.css";
-import { Form, Input, Checkbox, Button } from "antd";
-import {Link} from "react-router-dom";
+import {Form, Input, Checkbox, Button, Alert} from "antd";
+import {Link, Redirect} from "react-router-dom";
 
 const formItemLayout = {
     labelCol: {
@@ -20,12 +20,22 @@ const tailFormItemLayout = {
     }
 };
 
-const SignUp = () => {
+const SignUp = ({ asyncRegistrationWithDispatch, serverValidations, beginningWithDispatch, user }) => {
+
+    useEffect(() => {
+        return beginningWithDispatch;
+    }, []);
+
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
+    const onFinish = ({Username, email, password}) => {
+        asyncRegistrationWithDispatch(Username, email, password);
     };
+
+    if (Object.keys(user).length) {
+        return <Redirect to='/' />;
+    }
+
     return (
         <Form
             {...formItemLayout}
@@ -35,6 +45,7 @@ const SignUp = () => {
             onFinish={onFinish}
             scrollToFirstError
         >
+            {serverValidations && <Alert message={serverValidations} type="warning" showIcon style={{marginBottom:30}} />}
             <h2>Create new account</h2>
             <Form.Item
                 name="Username"
