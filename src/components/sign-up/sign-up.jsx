@@ -1,11 +1,8 @@
 import React from "react";
 import './sign-up.scss';
-import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
-// import "./index.css";
-import { Form, Input, Tooltip, Checkbox, Button } from "antd";
+import { Form, Input, Checkbox, Button } from "antd";
 import {Link} from "react-router-dom";
-// import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const formItemLayout = {
     labelCol: {
@@ -32,7 +29,7 @@ const SignUp = () => {
     return (
         <Form
             {...formItemLayout}
-            className="sign-up__form"
+            className="form"
             form={form}
             name="register"
             onFinish={onFinish}
@@ -42,7 +39,7 @@ const SignUp = () => {
             <Form.Item
                 name="Username"
                 label="Username"
-                className="sign-up__form__item"
+                className="form__item"
                 rules={[
                     {
                         required: true,
@@ -51,13 +48,13 @@ const SignUp = () => {
                     }
                 ]}
             >
-                <Input placeholder="Username" className="sign-up__input" />
+                <Input placeholder="Username" className="form__input" />
             </Form.Item>
 
             <Form.Item
                 name="email"
                 label="E-mail"
-                className="sign-up__form__item"
+                className="form__item"
                 rules={[
                     {
                         type: "email",
@@ -69,28 +66,38 @@ const SignUp = () => {
                     }
                 ]}
             >
-                <Input placeholder="E-mail" className="sign-up__input" />
+                <Input placeholder="E-mail" className="form__input" />
             </Form.Item>
 
             <Form.Item
                 name="password"
                 label="Password"
-                className="sign-up__form__item"
+                className="form__item"
                 rules={[
                     {
                         required: true,
                         message: "Please input your password!"
-                    }
+                    },
+                    ({ getFieldValue }) => ({
+                        validator(rule, value) {
+                            if (value.length < 6 || value.length > 16) {
+                                return Promise.reject(
+                                    "Your password needs to be at least 6 and shorter then 16 characters."
+                                );
+                            }
+                            return Promise.resolve()
+                        }
+                    })
                 ]}
                 hasFeedback
             >
-                <Input.Password placeholder="Password" className="sign-up__input" />
+                <Input.Password placeholder="Password" className="form__input" />
             </Form.Item>
 
             <Form.Item
                 name="confirm"
                 label="Confirm Password"
-                className="sign-up__form__item"
+                className="form__item"
                 dependencies={["password"]}
                 hasFeedback
                 rules={[
@@ -105,19 +112,19 @@ const SignUp = () => {
                             }
 
                             return Promise.reject(
-                                "The two passwords that you entered do not match!"
+                                "Passwords must match"
                             );
                         }
                     })
                 ]}
             >
-                <Input.Password placeholder="Password" className="sign-up__input" />
+                <Input.Password placeholder="Password" className="form__input" />
             </Form.Item>
 
             <Form.Item
                 name="agreement"
                 valuePropName="checked"
-                className="sign-up__form__item"
+                className="form__item"
                 rules={[
                     {
                         validator: (_, value) =>
