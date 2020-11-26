@@ -6,28 +6,50 @@ header{
   padding: 0 22px 0 22px;
   height: 80px;
   font-size:18px;
-  .sign-in, .sign-up{
-    width: 109px;
-    height: 51px;
-    padding: 6px 18px 10px;
-    border: none;
-    font: inherit;
-    color: inherit;
-    background-color: transparent;
-    cursor: pointer;
+  .title{
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.85);
   }
-  .sign-up{
-    color:#52C41A;
-    border: 1px solid #52C41A;
-    border-radius: 5px;
-    transition: .4s background;
+}
+
+@mixin button($padding, $border-color, $color, $color-hover, $background-hover, $border-hover){
+  width: 109px;
+  height: 51px;
+  padding:$padding;
+  font: inherit;
+  color: $color;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $border-color;
+  border-radius: 5px;
+  transition: .4s background;
+
+  &:hover{
+    color:$color-hover;
+    background: $background-hover;
+    border:$border-hover;
   }
-  .sign-up:hover{
-    color:#fff;
-    background: #52C41A;
-    border:#fff;
-  }
-  .sign-in{
-    margin-right: 9px;
-  }
+}
+
+.sign-up{
+  @include button(6px 18px 10px, #52C41A, #52C41A, #fff, #52C41A, #fff);
+}
+
+.sign-in{
+  @include button(6px 18px 10px, transparent, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.65), transparent, transparent);
+  margin-right: 9px;
+}
+
+.create{
+  @include button(6px 10px, #52C41A, #52C41A, #fff, #52C41A, #fff);
+  font-size: 14px;
+}
+
+.log-out{
+  @include button(6px 18px 10px, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75), #fff, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75));
+}
+
+.user{
+  margin: 0 30px;
 }

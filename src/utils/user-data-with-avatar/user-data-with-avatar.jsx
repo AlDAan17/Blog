@@ -4,7 +4,7 @@ import './user-data-with-avatar.scss';
 
 const defaultSrc = "https://static.productionready.io/images/smiley-cyrus.jpg"; 
 
-function UserDataWithAvatar({username, date, imageSrc, className}) {
+const UserDataWithAvatar = ({username, date, imageSrc, className}) => {
   return (
     <div className={`person ${className}`}>
       <div className="person__info">

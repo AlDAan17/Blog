@@ -6,15 +6,15 @@ import UserDataWithAvatar from '../../utils/user-data-with-avatar';
 const Header = ({user, logOutAndRemoveStorageWithDispatch}) =>{
     return(
        <header>
-            <Link to='/'>Realworld Blog</Link>
+            <Link to='/' className="title">Realworld Blog</Link>
             <div>
                 {user.username ?
                     <>
                         <Link className="create" to="/">
                             Create article
                         </Link>
-                        <UserDataWithAvatar username={user.username} imageSrc={user.image} className="indent"/>
-                        <Link to="/" className="logOut" onClick={logOutAndRemoveStorageWithDispatch}>
+                        <UserDataWithAvatar username={user.username} imageSrc={user.image} className="user"/>
+                        <Link to="/" className="log-out" onClick={logOutAndRemoveStorageWithDispatch}>
                             Log Out
                         </Link>
                     </>

@@ -9,15 +9,6 @@
     display: flex;
     justify-content: space-between;
 
-    .left {
-      width: 79%;
-    }
-
-    .right {
-      margin-left: 20px;
-      display: flex;
-    }
-
     .article__head {
       font-weight: normal;
       font-size: 20px;
@@ -39,28 +30,6 @@
       line-height: 22px;
       color: rgba(0, 0, 0, 0.75);
       margin-bottom: 10px;
-    }
-
-    .article__data {
-      margin-right: 12px;
-    }
-
-    .article__data-name {
-      font-weight: 500;
-      font-size: 18px;
-      line-height: 28px;
-    }
-
-    .article__avatar-item {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      margin-left: 12px;
-    }
-
-    .article__data-birth {
-      line-height: 22px;
-      color: rgba(0, 0, 0, 0.5);
     }
 
     .heart {
