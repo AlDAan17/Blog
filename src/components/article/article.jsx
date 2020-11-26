@@ -12,34 +12,31 @@ const mapTags = (tags) => {
 
 const Article = ({title, description, tagList, favoritesCount, author, createdAt, slug, body}) => {
     return (
-        <>
-            <div className="article">
-                <div className="article__item">
+        <div className="article">
+            <div className="article__item">
+                <div>
                     <div>
-                        <div>
-                            <Link to={`/articles/${slug}`} className="article__head">{title}</Link>
-                            <label>
-                                <input className="heart__checkbox" type='checkbox'/>
-                                <span className="heart"/>
-                            </label>
-                            <label>{favoritesCount}</label>
-                        </div>
-                        <div>{mapTags(tagList)}</div>
-                        <div className="article__description">{description}
-                        </div>
+                        <Link to={`/articles/${slug}`} className="article__head">{title}</Link>
+                        <label>
+                            <input className="heart__checkbox" type='checkbox'/>
+                            <span className="heart"/>
+                        </label>
+                        <label>{favoritesCount}</label>
                     </div>
-                    <UserDataWithAvatar
-                        username={author.username}
-                        date={format(new Date(createdAt), 'LLLL d, y')}
-                        imageSrc={author.image}
-                    />
+                    <div>{mapTags(tagList)}</div>
+                    <div className="article__description">{description}
+                    </div>
                 </div>
-                <Markdown>{body}</Markdown>
+                <UserDataWithAvatar
+                    username={author.username}
+                    date={format(new Date(createdAt), 'LLLL d, y')}
+                    imageSrc={author.image}
+                />
             </div>
-        </>
+            <Markdown>{body}</Markdown>
+        </div>
     )
 }
-
 
 
 Article.propTypes = {

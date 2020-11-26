@@ -1,10 +1,20 @@
 import { combineReducers } from 'redux';
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED } from './action-types';
+import {
+  ARTICLES_RECEIVED,
+  ARTICLES_NOT_RECEIVED,
+  BEGINNING,
+  AUTH_COMPLETED,
+  LOG_OUT,
+  SERVER_VALIDATIONS_RECEIVED,
+  PROFILE_EDITED, RESET
+} from './action-types';
 
 const successfullDownload = (state = false, action) =>{
   switch (action.type) {
     case ARTICLES_RECEIVED:
       return true;
+    case RESET:
+      return false;
     default:
       return state;
   }
@@ -23,6 +33,8 @@ const error = (state = false, action) =>{
   switch (action.type) {
     case ARTICLES_NOT_RECEIVED:
       return true;
+    case RESET:
+      return false;
     default:
       return state;
   }
@@ -45,10 +57,23 @@ const serverValidations = (state = '', action) =>{
   switch (action.type) {
     case SERVER_VALIDATIONS_RECEIVED:
       return action.text;
-    case BEGINNING:
+    case RESET:
       return '';
-    case AUTH_COMPLETED:
-      return '';
+    // case BEGINNING:
+    //   return '';
+    // case AUTH_COMPLETED:
+    //   return '';
+    default:
+      return state;
+  }
+}
+
+function successEditingProfile(state = false, action) {
+  switch (action.type) {
+    case PROFILE_EDITED:
+      return true;
+    case RESET:
+      return false;
     default:
       return state;
   }
@@ -60,6 +85,7 @@ const reducer = combineReducers({
   error,
   user,
   serverValidations,
+  successEditingProfile,
 });
 
 export default reducer;

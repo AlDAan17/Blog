@@ -1,5 +1,13 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED } from './action-types';
-import { getArticlesFromAPI, registration, authentication } from '../services/article-service';
+import {
+  ARTICLES_RECEIVED,
+  ARTICLES_NOT_RECEIVED,
+  BEGINNING,
+  AUTH_COMPLETED,
+  LOG_OUT,
+  SERVER_VALIDATIONS_RECEIVED,
+  PROFILE_NOT_EDITED, PROFILE_EDITED, RESET
+} from './action-types';
+import {getArticlesFromAPI, registration, authentication, editProfile} from '../services/article-service';
 
 const articlesReceived = (articles, page) => ({
   type: ARTICLES_RECEIVED,
@@ -40,6 +48,7 @@ const serverValidationsReceived = (text) => ({
 export const asyncRegistration = (username, email, password) => {
   return async function (dispatch) {
     try {
+      dispatch(reset());
       const response = await registration(username, email, password);
       const { user, errors } = response;
       if (errors) {
@@ -60,6 +69,7 @@ export const asyncRegistration = (username, email, password) => {
 export const asyncAuthentication = (email, password) => {
   return async function (dispatch) {
     try {
+      dispatch(reset());
       const response = await authentication(email, password);
       const { user, errors } = response;
       if (errors) {
@@ -75,6 +85,10 @@ export const asyncAuthentication = (email, password) => {
   }
 }
 
+export const reset = () => ({
+  type: RESET,
+});
+
 const logOut = () => ({
   type: LOG_OUT,
 })
@@ -85,3 +99,34 @@ export const logOutAndRemoveStorage = () => {
     dispatch(logOut());
   }
 }
+
+const profileEdited = (user) => ({
+  type: PROFILE_EDITED,
+  user,
+});
+
+
+const profileNotEdited = () => ({
+  type: PROFILE_NOT_EDITED,
+});
+
+export const asyncEditProfile = (token, username, email, password, image) => {
+  return async function inside(dispatch) {
+    try {
+      const response = await editProfile(token, username, email, password, image);
+      const { user, errors } = response;
+      if (errors) {
+        const part1 = errors.username ? 'This username is busy' : '';
+        const part2 = errors.email ? 'This email is busy' : '';
+        const text = `${part1}\n${part2}`;
+        dispatch(serverValidationsReceived(text));
+      } else {
+        dispatch(profileEdited(user));
+        sessionStorage.setItem('user', JSON.stringify(user));
+        dispatch(reset());
+      }
+    } catch (error) {
+      dispatch(profileNotEdited());
+    }
+  };
+};
