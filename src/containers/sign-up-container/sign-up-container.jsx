@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   asyncRegistrationWithDispatch: (username, email, password) => dispatch(asyncRegistration(username, email, password)),
-  beginningWithDispatch: () => dispatch(beginning()),
+  // beginningWithDispatch: () => dispatch(beginning()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

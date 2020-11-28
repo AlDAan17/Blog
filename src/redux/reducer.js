@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import {
   ARTICLES_RECEIVED,
   ARTICLES_NOT_RECEIVED,
-  BEGINNING,
   AUTH_COMPLETED,
   LOG_OUT,
   SERVER_VALIDATIONS_RECEIVED,
@@ -59,10 +58,6 @@ const serverValidations = (state = '', action) =>{
       return action.text;
     case RESET:
       return '';
-    // case BEGINNING:
-    //   return '';
-    // case AUTH_COMPLETED:
-    //   return '';
     default:
       return state;
   }

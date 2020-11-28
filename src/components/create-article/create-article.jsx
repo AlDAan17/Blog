@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import "antd/dist/antd.css";
 import "./create-article.scss"
-import {Form, Input, Checkbox, Button, Alert} from "antd";
+import {Form, Input, Button, Alert} from "antd";
 import {Link, Redirect} from "react-router-dom";
 
 const formItemLayout = {
@@ -20,11 +20,7 @@ const tailFormItemLayout = {
   }
 };
 
-const EditProfile = ({ asyncAuthenticationWithDispatch, serverValidations, beginningWithDispatch, user }) => {
-
-  // useEffect(() => {
-  //     return beginningWithDispatch;
-  // }, []);
+const EditProfile = ({ asyncAuthenticationWithDispatch, serverValidations, user }) => {
 
   const [form] = Form.useForm();
 

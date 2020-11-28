@@ -43,7 +43,7 @@ Header.propTypes = {
         image: PropTypes.string,
         token: PropTypes.string,
     }).isRequired,
-    logOutingWithDispatch: PropTypes.func.isRequired,
+    logOutingWithDispatch: PropTypes.func,
 };
 
 export default Header;

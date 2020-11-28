@@ -20,11 +20,7 @@ const tailFormItemLayout = {
     }
 };
 
-const SignUp = ({ asyncRegistrationWithDispatch, serverValidations, beginningWithDispatch, user }) => {
-
-    useEffect(() => {
-        return beginningWithDispatch;
-    }, []);
+const SignUp = ({ asyncRegistrationWithDispatch, serverValidations, user }) => {
 
     const [form] = Form.useForm();
 

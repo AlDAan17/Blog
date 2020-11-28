@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import './sign-in.scss';
 import "antd/dist/antd.css";
 import {Form, Input, Checkbox, Button, Alert} from "antd";
@@ -20,11 +20,7 @@ const tailFormItemLayout = {
     }
 };
 
-const SignIn = ({ asyncAuthenticationWithDispatch, serverValidations, beginningWithDispatch, user }) => {
-
-    useEffect(() => {
-        return beginningWithDispatch;
-    }, []);
+const SignIn = ({ asyncAuthenticationWithDispatch, serverValidations, user }) => {
 
     const [form] = Form.useForm();
 

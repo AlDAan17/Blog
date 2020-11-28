@@ -1,7 +1,6 @@
 import {
   ARTICLES_RECEIVED,
   ARTICLES_NOT_RECEIVED,
-  BEGINNING,
   AUTH_COMPLETED,
   LOG_OUT,
   SERVER_VALIDATIONS_RECEIVED,
@@ -30,10 +29,6 @@ export const asyncGetArticles = (page) => {
     }
   }
 }
-
-export const beginning = () => ({
-  type: BEGINNING,
-});
 
 const authCompleted = (user) => ({
   type: AUTH_COMPLETED,
