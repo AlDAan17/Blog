@@ -1,3 +1,23 @@
 .form__create{
   max-width: 930px;
 }
+
+.btn__tag{
+  //position: absolute;
+  //display: flex;
+  //align-items: flex-end;
+  //margin: 40px 0px 20px 0px;
+}
+
+.btn__tag-del{
+  margin: 0 10px 5px 10px;
+}
+
+.form__item__tags {
+  //flex: none !important;
+  position: relative;
+}
+
+.form__item__tags div{
+  text-align: left !important;
+}

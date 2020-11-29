@@ -5,7 +5,7 @@ import {
   AUTH_COMPLETED,
   LOG_OUT,
   SERVER_VALIDATIONS_RECEIVED,
-  PROFILE_EDITED, RESET
+  PROFILE_EDITED, RESET, ARTICLE_CREATED,
 } from './action-types';
 
 const successfullDownload = (state = false, action) =>{
@@ -74,6 +74,17 @@ function successEditingProfile(state = false, action) {
   }
 }
 
+function successCreatingArticle(state = false, action) {
+  switch (action.type) {
+    case ARTICLE_CREATED:
+      return true;
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successfullDownload,
@@ -81,6 +92,7 @@ const reducer = combineReducers({
   user,
   serverValidations,
   successEditingProfile,
+  successCreatingArticle,
 });
 
 export default reducer;

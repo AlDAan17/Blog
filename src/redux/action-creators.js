@@ -4,9 +4,21 @@ import {
   AUTH_COMPLETED,
   LOG_OUT,
   SERVER_VALIDATIONS_RECEIVED,
-  PROFILE_NOT_EDITED, PROFILE_EDITED, RESET
+  PROFILE_NOT_EDITED,
+  PROFILE_EDITED,
+  RESET,
+  ARTICLE_CREATED,
+  ARTICLE_NOT_CREATED,
+  ARTICLE_EDITED,
+  ARTICLE_NOT_EDITED,
 } from './action-types';
-import {getArticlesFromAPI, registration, authentication, editProfile} from '../services/article-service';
+import {
+  getArticlesFromAPI,
+  registration,
+  authentication,
+  editProfile,
+  createArticle,
+} from '../services/article-service';
 
 const articlesReceived = (articles, page) => ({
   type: ARTICLES_RECEIVED,
@@ -122,6 +134,26 @@ export const asyncEditProfile = (token, username, email, password, image) => {
       }
     } catch (error) {
       dispatch(profileNotEdited());
+    }
+  };
+};
+
+const articleCreated = () => ({
+  type: ARTICLE_CREATED,
+});
+
+const articleNotCreated = () => ({
+  type: ARTICLE_NOT_CREATED,
+});
+
+export const asyncCreateArticle = (token, title, description, body, tagList) => {
+  return async function inside(dispatch) {
+    try {
+      dispatch(reset());
+      await createArticle(token, title, description, body, tagList);
+      dispatch(articleCreated());
+    } catch (error) {
+      dispatch(articleNotCreated());
     }
   };
 };
