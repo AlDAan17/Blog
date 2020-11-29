@@ -5,7 +5,12 @@ import {
   AUTH_COMPLETED,
   LOG_OUT,
   SERVER_VALIDATIONS_RECEIVED,
-  PROFILE_EDITED, RESET, ARTICLE_CREATED,
+  PROFILE_EDITED,
+  RESET,
+  ARTICLE_CREATED,
+  ARTICLE_EDITED,
+  ARTICLE_RECEIVED,
+  ARTICLE_NOT_RECEIVED,
 } from './action-types';
 
 const successfullDownload = (state = false, action) =>{
@@ -63,7 +68,7 @@ const serverValidations = (state = '', action) =>{
   }
 }
 
-function successEditingProfile(state = false, action) {
+const successEditingProfile = (state = false, action) =>{
   switch (action.type) {
     case PROFILE_EDITED:
       return true;
@@ -74,7 +79,7 @@ function successEditingProfile(state = false, action) {
   }
 }
 
-function successCreatingArticle(state = false, action) {
+const successCreatingArticle = (state = false, action) => {
   switch (action.type) {
     case ARTICLE_CREATED:
       return true;
@@ -85,14 +90,48 @@ function successCreatingArticle(state = false, action) {
   }
 }
 
+const successEditingArticle = (state = false, action) =>{
+  switch(action.type) {
+    case ARTICLE_EDITED:
+      return true;
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
+function successGettingArticle(state = false, action) {
+  switch (action.type) {
+    case ARTICLE_RECEIVED:
+      return true;
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
+const lastOpenedArticle = (state = {}, action) => {
+  switch (action.type) {
+    case ARTICLE_RECEIVED:
+      return { ...action.article };
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successfullDownload,
   error,
   user,
+  lastOpenedArticle,
   serverValidations,
   successEditingProfile,
   successCreatingArticle,
+  successEditingArticle,
+  successGettingArticle,
 });
 
 export default reducer;

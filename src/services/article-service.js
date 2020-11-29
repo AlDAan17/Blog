@@ -4,6 +4,10 @@ export function getArticlesFromAPI(page) {
   return request(`https://conduit.productionready.io/api/articles?limit=10&offset=${(page - 1) * 10}`);
 }
 
+export function getArticleFromAPI(slug) {
+  return request(`https://conduit.productionready.io/api/articles/${slug}`);
+}
+
 export function registration(username, email, password) {
   const body = {
     "user": {
@@ -77,4 +81,24 @@ export function createArticle(token, title, description, body, tagList) {
     body: JSON.stringify(requestBody),
   };
   return request('https://conduit.productionready.io/api/articles', options);
+}
+
+export function editArticle(token, title, description, body, tagList, slug) {
+  const requestBody = {
+    article: {
+      title,
+      description,
+      body,
+      tagList,
+    },
+  };
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify(requestBody),
+  };
+  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
 }

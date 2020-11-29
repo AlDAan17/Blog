@@ -104,9 +104,10 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
         {(fields, { add, remove }, { errors }) => (
           <>
             {fields.map((field, index) => (
+              // const test = () =>{
+            // }
               <Form.Item
                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                // label={index === 0 ? 'Passengers' : ''}
                 required={false}
                 key={field.key}
               >

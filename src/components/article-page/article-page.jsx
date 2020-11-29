@@ -1,11 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 import Article from '../article';
+import { LoadingOutlined } from '@ant-design/icons';
 
-const ArticlePage = ({match, articles}) => {
+const ArticlePage = ({match, article, successGettingArticle, asyncGetArticleWithDispatch}) => {
   const {slug} = match.params;
-  const article = articles.find((art) => art.slug === slug);
-  return <Article {...article} isList={false}/> 
+
+  useEffect(() => {
+    asyncGetArticleWithDispatch(slug);
+  }, [asyncGetArticleWithDispatch, slug])
+
+  if(!successGettingArticle){
+    return <LoadingOutlined className="spinner" spin />;
+  }
+  const {
+    author: { username },
+  } = article;
+  return <Article {...article} isList={false} showEditArticle={isMyArticle(username)}/>
+}
+
+const isMyArticle = (authorName) => {
+  const myUserName = JSON.parse(sessionStorage.getItem('user')).username;
+  return authorName === myUserName;
 }
 
 ArticlePage.propTypes = {

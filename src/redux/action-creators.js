@@ -11,6 +11,8 @@ import {
   ARTICLE_NOT_CREATED,
   ARTICLE_EDITED,
   ARTICLE_NOT_EDITED,
+  ARTICLE_RECEIVED,
+  ARTICLE_NOT_RECEIVED
 } from './action-types';
 import {
   getArticlesFromAPI,
@@ -18,7 +20,12 @@ import {
   authentication,
   editProfile,
   createArticle,
+  editArticle, getArticleFromAPI,
 } from '../services/article-service';
+
+export const reset = () => ({
+  type: RESET,
+});
 
 const articlesReceived = (articles, page) => ({
   type: ARTICLES_RECEIVED,
@@ -41,6 +48,27 @@ export const asyncGetArticles = (page) => {
     }
   }
 }
+const articleReceived = (article) => ({
+  type: ARTICLE_RECEIVED,
+  article,
+});
+
+const articleNotReceived = () => ({
+  type: ARTICLE_NOT_RECEIVED,
+});
+
+export const asyncGetArticle = (slug) => {
+  return async function inside(dispatch) {
+    try {
+      dispatch(reset());
+      const response = await getArticleFromAPI(slug);
+      const { article } = response;
+      dispatch(articleReceived(article));
+    } catch (error) {
+      dispatch(articleNotReceived());
+    }
+  };
+};
 
 const authCompleted = (user) => ({
   type: AUTH_COMPLETED,
@@ -91,10 +119,6 @@ export const asyncAuthentication = (email, password) => {
     }
   }
 }
-
-export const reset = () => ({
-  type: RESET,
-});
 
 const logOut = () => ({
   type: LOG_OUT,
@@ -157,3 +181,22 @@ export const asyncCreateArticle = (token, title, description, body, tagList) => 
     }
   };
 };
+
+const articleEdited = () => ({
+  type: ARTICLE_EDITED,
+})
+
+const articleNotEdited = () => ({
+  type: ARTICLE_NOT_EDITED,
+})
+
+export const asyncEditArticle = (token, title, description, body, tagList, slug) => {
+  return async function inside(dispatch) {
+    try {
+      await editArticle(token, title, description, body, tagList, slug);
+      dispatch(articleEdited());
+    } catch(error) {
+      dispatch(articleNotEdited());
+    }
+  }
+}

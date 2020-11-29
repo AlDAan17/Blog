@@ -1,3 +1,5 @@
+@import "./src/utils/button-mixins";
+
 .article {
   padding: 15px 14px 24px 19px;
   background: #fff;
@@ -25,7 +27,7 @@
       border-radius: 2px;
     }
 
-    .article__description{
+    .article__description {
       font-size: 12px;
       line-height: 22px;
       color: rgba(0, 0, 0, 0.75);
@@ -49,6 +51,25 @@
 
       &:checked ~ .heart {
         background: url("../../icons/heart-active.png") no-repeat;
+      }
+    }
+
+    .article__container{
+      flex-shrink: 0;
+
+      .edit-buttons{
+        margin: 30px 0 20px 0;
+
+        .delete-article {;
+          background: transparent;
+          @include button(9px 17px, #F5222D, #F5222D, #fff, #F5222D, #fff);
+        }
+
+        .edit-article {
+          background: transparent;
+          margin-left: 10px;
+          @include button(9px 17px, #52C41A, #52C41A, #fff, #52C41A, #fff);
+        }
       }
     }
   }
