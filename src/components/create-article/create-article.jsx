@@ -27,7 +27,8 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, successCreating, errorCreating }) => {
+const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, successCreating, errorCreating, mission, article, asyncEditArticleWithDispatch, successEditing }) => {
+  const {slug} = article;
 
   useEffect(() => {
     return resetWithDispatch;
@@ -36,6 +37,8 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
   const [form] = Form.useForm();
 
   const onFinish = ({ title, shortDescription, text, tagList }) => {
+    mission === 'edit' ? asyncEditArticleWithDispatch(user.token, title, shortDescription, text, tagList, slug)
+      :
     asyncCreateArticleWithDispatch(user.token, title, shortDescription, text, tagList);
   };
 
@@ -43,9 +46,18 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
     return <Redirect to="/sign-in"/>;
   }
 
-  if (successCreating) {
+  if (successCreating || successEditing) {
     return <Redirect to="/"/>;
   }
+
+  const head = mission === "edit" ? 'Edit Article' : 'Create new article';
+
+  const initialValues = mission === 'edit'? {
+    title: article.title,
+    shortDescription: article.description,
+    text: article.body,
+    tagList:article.tagList,
+  } : null;
 
   return (
     <Form
@@ -55,24 +67,25 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
       name="register"
       onFinish={onFinish}
       scrollToFirstError
+      initialValues={initialValues}
     >
       {errorCreating && <Alert message={errorCreating} type="warning" showIcon style={{ marginBottom: 30 }}/>}
-      <h2>Create new article</h2>
+      <h2>{head}</h2>
       <Form.Item
-        // validateTrigger={['onChange', 'onBlur']}
         name="title"
         label="Title"
         className="form__item"
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Please input title',
             whitespace: true,
           },
         ]}
       >
         <Input placeholder="Title" className="form__input"/>
       </Form.Item>
+
       <Form.Item
         name="shortDescription"
         label="Short description"
@@ -80,7 +93,7 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
         rules={[
           {
             required: true,
-            message: 'Please input short description!',
+            message: 'Please input short description',
           },
         ]}
       >
@@ -94,140 +107,78 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
         rules={[
           {
             required: true,
-            message: 'Please enter your text article',
+            message: 'Please enter text article',
           },
         ]}
       >
         <Input.TextArea placeholder="Text" className="form__input" style={{ height: 168 }}/>
       </Form.Item>
+
       <Form.List name="tagList">
         {(fields, { add, remove }, { errors }) => (
           <>
             {fields.map((field, index) => (
-              // const test = () =>{
-            // }
+
               <Form.Item
                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                 required={false}
                 key={field.key}
+                className="form__row"
               >
                 <Form.Item
+                  style={{ marginLeft: 0}}
                   {...field}
                   validateTrigger={['onChange', 'onBlur']}
                   rules={[
                     {
                       required: true,
                       whitespace: true,
-                      message: 'Please input passenger\'s name or delete this field.',
+                      message: 'Please input tag or delete this field.',
                     },
                   ]}
                   noStyle
                 >
-                  <Input placeholder="passenger name" style={{ width: '60%' }}/>
+                  <Input placeholder="Tag" className="input__tag"/>
                 </Form.Item>
-                <>
-                  <Button
-                    className="btn__tag btn__tag-del"
-                    type="danger" ghost
-                    onClick={() => remove(field.name)}
-                  >Delete</Button>
-                  <Button
-                    className="btn__tag"
-                    type="primary" ghost
-                    onClick={() => add()}
-                  >Add Tag</Button>
-                </>
+
+                <Button
+                  className="btn__tag btn__tag-del"
+                  type="danger" ghost
+                  onClick={() => remove(field.name)}
+                >Delete</Button>
+                <Button
+                  className="btn__tag btn__tag-add"
+                  type="primary" ghost
+                  onClick={() => add()}
+                >Add Tag</Button>
+
               </Form.Item>
             ))}
-            <Form.Item>
+
+            {(fields.length === 0) ? <Form.Item style={{textAlign: 'left'}}>
               <Button
-                type="dashed"
+                type="primary" ghost
+                className="btn__tag btn__tag-add"
                 onClick={() => add()}
-                style={{ width: '60%' }}
               >
                 Add tag
               </Button>
               <Form.ErrorList errors={errors}/>
-            </Form.Item>
+            </Form.Item> : null}
           </>
         )}
       </Form.List>
 
-
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" block htmlType="submit">
+      <Form.Item {...tailFormItemLayout} style={{textAlign:'left'}}>
+        <Button type="primary"
+                className="btn__save"
+                block
+                htmlType="submit">
           Save
         </Button>
       </Form.Item>
     </Form>
   );
 };
-
-// const EditProfile = () => {
-//   const onFinish = values => {
-//     console.log('Received values of form:', values);
-//   };
-
-//   return (
-//     <Form name="dynamic_form_item" {...formItemLayoutWithOutLabel} onFinish={onFinish}>
-//       <Form.List name="names">
-//         {(fields, { add, remove }, { errors }) => (
-//           <>
-//             {fields.map((field, index) => (
-//               <Form.Item
-//                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-//                 label={index === 0 ? 'Passengers' : ''}
-//                 required={false}
-//                 key={field.key}
-//               >
-//                 <Form.Item
-//                   {...field}
-//                   validateTrigger={['onChange', 'onBlur']}
-//                   rules={[
-//                     {
-//                       required: true,
-//                       whitespace: true,
-//                       message: "Please input passenger's name or delete this field.",
-//                     },
-//                   ]}
-//                   noStyle
-//                 >
-//                   <Input placeholder="passenger name" style={{ width: '60%' }} />
-//                 </Form.Item>
-//                   <>
-//                   <Button
-//                     className="btn__tag btn__tag-del"
-//                     type="danger" ghost
-//                     onClick={() => remove(field.name)}
-//                   >Delete</Button>
-//                   <Button
-//                     className="btn__tag"
-//                     type="primary" ghost
-//                     onClick={() => add()}
-//                   >Add Tag</Button>
-//                   </>
-//               </Form.Item>
-//             ))}
-//             <Form.Item>
-//               <Button
-//                 type="dashed"
-//                 onClick={() => add()}
-//                 style={{ width: '60%' }}
-//               >
-//                 Add tag
-//               </Button>
-//               <Form.ErrorList errors={errors} />
-//             </Form.Item>
-//           </>
-//         )}
-//       </Form.List>
-//       <Form.Item>
-//         <Button type="primary" htmlType="submit">
-//           Send
-//         </Button>
-//       </Form.Item>
-//     </Form>
-//   );
-// };
 
 export default EditProfile;

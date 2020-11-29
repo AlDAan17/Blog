@@ -22,8 +22,8 @@ const tailFormItemLayout = {
 const EditProfile = ({ asyncEditProfileWithDispatch, serverValidations, user, successEditing }) => {
     const [form] = Form.useForm();
 
-    const onFinish = (dude) => {
-        asyncEditProfileWithDispatch(user.token, dude.username, dude.email, dude.password, dude.avatar);
+    const onFinish = (client) => {
+        asyncEditProfileWithDispatch(user.token, client.username, client.email, client.password, client.avatar);
     };
 
     if (!Object.keys(user).length) {

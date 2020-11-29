@@ -10,7 +10,7 @@ import {
   ARTICLE_CREATED,
   ARTICLE_EDITED,
   ARTICLE_RECEIVED,
-  ARTICLE_NOT_RECEIVED,
+  ARTICLE_NOT_RECEIVED, ARTICLE_DELETED, ARTICLE_NOT_DELETED,
 } from './action-types';
 
 const successfullDownload = (state = false, action) =>{
@@ -101,6 +101,17 @@ const successEditingArticle = (state = false, action) =>{
   }
 }
 
+const deletingArticle = (state = false, action) =>{
+  switch (action.type) {
+    case ARTICLE_DELETED:
+      return true;
+    case ARTICLE_NOT_DELETED:
+      return false;
+    default:
+      return state;
+  }
+}
+
 function successGettingArticle(state = false, action) {
   switch (action.type) {
     case ARTICLE_RECEIVED:
@@ -132,6 +143,7 @@ const reducer = combineReducers({
   successCreatingArticle,
   successEditingArticle,
   successGettingArticle,
+  deletingArticle
 });
 
 export default reducer;

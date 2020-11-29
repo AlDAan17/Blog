@@ -58,6 +58,8 @@
       flex-shrink: 0;
 
       .edit-buttons{
+        display: flex;
+        justify-content: flex-end;
         margin: 30px 0 20px 0;
 
         .delete-article {;

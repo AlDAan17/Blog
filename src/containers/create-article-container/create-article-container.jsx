@@ -3,6 +3,7 @@ import CreateArticle from '../../components/create-article';
 import { asyncCreateArticle, reset } from '../../redux/action-creators';
 
 const mapStateToProps = (state) => ({
+  article: state.lastOpenedArticle,
   user: state.user,
   successCreating: state.successCreatingArticle,
   // errorCreating: state.errorRegistrationOrAuthentication,

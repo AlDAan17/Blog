@@ -8,12 +8,14 @@ import SignInContainer from '../../containers/sign-in-container';
 import HeaderContainer from '../../containers/header-container';
 import EditProfileContainer from '../../containers/edit-profile-container';
 import CreateArticleContainer from '../../containers/create-article-container';
+import EditArticleContainer from '../../containers/edit-article-container'
 
 const App = () => {
     return (
         <Router>
             <HeaderContainer/>
             <Switch>
+              <Route path="/articles/:slug/edit" component={EditArticleContainer} />
                 <Route path='/articles/:slug' component={ArticlePageContainer}/>
                 <Route path='/sign-up' component={SignUpContainer}/>
                 <Route path='/sign-in' component={SignInContainer}/>

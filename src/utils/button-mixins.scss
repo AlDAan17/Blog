@@ -1,5 +1,5 @@
 @mixin button($padding, $border-color, $color, $color-hover, $background-hover, $border-hover){
-
+  outline: none;
   padding:$padding;
   font: inherit;
   color: $color;

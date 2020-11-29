@@ -10,35 +10,35 @@ export function getArticleFromAPI(slug) {
 
 export function registration(username, email, password) {
   const body = {
-    "user": {
-      "username": username,
-      "email": email,
-      "password": password,
-    }
+    'user': {
+      'username': username,
+      'email': email,
+      'password': password,
+    },
   };
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   };
   return request('https://conduit.productionready.io/api/users', options);
 }
 
 export function authentication(email, password) {
   const body = {
-    "user": {
-      "email": email,
-      "password": password,
-    }
-  }
+    'user': {
+      'email': email,
+      'password': password,
+    },
+  };
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   };
   return request('https://conduit.productionready.io/api/users/login', options);
 }
@@ -99,6 +99,17 @@ export function editArticle(token, title, description, body, tagList, slug) {
       Authorization: `Token ${token}`,
     },
     body: JSON.stringify(requestBody),
+  };
+  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+}
+
+export function deleteArticle(token, slug) {
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    },
   };
   return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
 }

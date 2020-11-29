@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
 import UserDataWithAvatar from '../../utils/user-data-with-avatar';
+import { Popconfirm } from 'antd';
 
 const mapTags = (tags) => {
   return tags.map((tag) => <p className="article__tag">{tag}</p>);
 };
 
-const Article = ({ title, description, tagList, favoritesCount, author, createdAt, slug, body, showEditArticle }) => {
+const Article = ({ title, description, tagList, favoritesCount, author, createdAt, slug, body, showEditArticle, asyncDeleteArticle }) => {
   return (
     <div className="article">
       <div className="article__item">
@@ -33,15 +34,24 @@ const Article = ({ title, description, tagList, favoritesCount, author, createdA
             date={format(new Date(createdAt), 'LLLL d, y')}
             imageSrc={author.image}
           />
-            {showEditArticle ? (
+            {showEditArticle && (
               <div className="edit-buttons">
-                  <Link to="/articles/"  className="delete-article">delete</Link>
+                <Popconfirm
+                  placement="rightTop"
+                  title="Are you sure to delete this article?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={asyncDeleteArticle}
+                >
+                  <button  className="delete-article">delete</button>
+                </Popconfirm>
                   <Link to={`/articles/${slug}/edit`} className="edit-article">edit</Link>
               </div>
-            ) : null}
+            )}
         </div>
       </div>
-      <Markdown>{body}</Markdown>
+      {/*<Markdown>{body}</Markdown>*/}
+      <p>{body}</p>
     </div>
   );
 };
