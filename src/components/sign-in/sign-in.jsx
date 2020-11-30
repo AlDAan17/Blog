@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import './sign-in.scss';
 import "antd/dist/antd.css";
-import {Form, Input, Checkbox, Button, Alert} from "antd";
+import { Form, Input, Checkbox, Button, Alert, message } from 'antd';
 import {Link, Redirect} from "react-router-dom";
 
 const formItemLayout = {
@@ -20,18 +21,20 @@ const tailFormItemLayout = {
     }
 };
 
-const SignIn = ({ asyncAuthenticationWithDispatch, serverValidations, user }) => {
-
+const SignIn = ({ asyncAuthentication, serverValidations, user, error }) => {
     const [form] = Form.useForm();
 
     const onFinish = ({email, password}) => {
-        asyncAuthenticationWithDispatch(email, password);
+        asyncAuthentication(email, password);
     };
 
     if (Object.keys(user).length) {
         return <Redirect to='/' />;
     }
 
+    if(error){
+        message.error('Cannot connect to server');
+    }
 
     return (
         <Form
@@ -86,5 +89,12 @@ const SignIn = ({ asyncAuthenticationWithDispatch, serverValidations, user }) =>
         </Form>
     );
 };
+
+SignIn.propTypes = {
+    asyncAuthentication: PropTypes.func.isRequired,
+    serverValidations: PropTypes.string.isRequired,
+    error: PropTypes.bool.isRequired,
+    user:PropTypes.object.isRequired,
+}
 
 export default SignIn;

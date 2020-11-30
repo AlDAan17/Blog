@@ -50,12 +50,11 @@ const Article = ({ title, description, tagList, favoritesCount, author, createdA
             )}
         </div>
       </div>
-      {/*<Markdown>{body}</Markdown>*/}
-      <p>{body}</p>
+      <Markdown>{body}</Markdown>
+      {/*<p>{body}</p>*/}
     </div>
   );
 };
-
 
 Article.propTypes = {
   title: PropTypes.string.isRequired,
@@ -71,6 +70,10 @@ Article.propTypes = {
   createdAt: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  showEditArticle: PropTypes.bool,
+  // eslint-disable-next-line react/require-default-props
+  // asyncDeleteArticle: PropTypes.func,
 };
 
 export default Article;

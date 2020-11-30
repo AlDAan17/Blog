@@ -1,6 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import {Form, Input, Button, Alert} from "antd";
+import { Form, Input, Button, Alert, message } from 'antd';
 import {Link, Redirect} from "react-router-dom";
 
 const formItemLayout = {
@@ -19,11 +19,12 @@ const tailFormItemLayout = {
     }
 };
 
-const EditProfile = ({ asyncEditProfileWithDispatch, serverValidations, user, successEditing }) => {
+const EditProfile = ({ asyncEditProfileWithDispatch, serverValidations, user, successEditing, error }) => {
     const [form] = Form.useForm();
 
-    const onFinish = (client) => {
-        asyncEditProfileWithDispatch(user.token, client.username, client.email, client.password, client.avatar);
+     async function onFinish (client){
+        await asyncEditProfileWithDispatch(user.token, client.username, client.email, client.password, client.avatar);
+        if(error) message.error('Cannot connect to server, try later');
     };
 
     if (!Object.keys(user).length) {
@@ -31,7 +32,12 @@ const EditProfile = ({ asyncEditProfileWithDispatch, serverValidations, user, su
     }
 
     if (successEditing) {
+        message.success('Successfully edited');
         return <Redirect to="/" />;
+    }
+
+    if(error){
+        message.error('Cannot connect to server, try later', 3);
     }
 
     return (

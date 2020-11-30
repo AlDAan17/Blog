@@ -12,7 +12,7 @@ import {
   ARTICLE_EDITED,
   ARTICLE_NOT_EDITED,
   ARTICLE_RECEIVED,
-  ARTICLE_NOT_RECEIVED, ARTICLE_DELETED, ARTICLE_NOT_DELETED, ARTICLE_DELETE_LOADING,
+  ARTICLE_NOT_RECEIVED, ARTICLE_DELETED, ARTICLE_NOT_DELETED, ARTICLE_DELETE_LOADING, AUTH_NOT_COMPLETED,
 } from './action-types';
 import {
   getArticlesFromAPI,
@@ -40,6 +40,7 @@ const articlesNotReceived = () => ({
 export const asyncGetArticles = (page) => {
   return async function(dispatch) {
     try {
+      dispatch(reset());
       const response = await getArticlesFromAPI(page);
       const {articles} = response;
       dispatch(articlesReceived(articles, page));
@@ -74,6 +75,10 @@ const authCompleted = (user) => ({
   type: AUTH_COMPLETED,
   user,
 })
+const authNotCompleted = (user) => ({
+  type: AUTH_NOT_COMPLETED,
+  user,
+})
 
 const serverValidationsReceived = (text) => ({
   type: SERVER_VALIDATIONS_RECEIVED,
@@ -96,7 +101,7 @@ export const asyncRegistration = (username, email, password) => {
         sessionStorage.setItem("user", JSON.stringify(user));
       }
     } catch(error) {
-      console.log(error.message);
+      dispatch(authNotCompleted());
     }
   }
 }
@@ -115,7 +120,7 @@ export const asyncAuthentication = (email, password) => {
         sessionStorage.setItem("user", JSON.stringify(user));
       }
     } catch(error) {
-      console.log(error.message);
+      dispatch(authNotCompleted());
     }
   }
 }
@@ -147,6 +152,7 @@ export const asyncEditProfile = (token, username, email, password, image) => {
       const response = await editProfile(token, username, email, password, image);
       const { user, errors } = response;
       if (errors) {
+        dispatch(reset());
         const part1 = errors.username ? 'This username is busy' : '';
         const part2 = errors.email ? 'This email is busy' : '';
         const text = `${part1}\n${part2}`;
@@ -154,7 +160,6 @@ export const asyncEditProfile = (token, username, email, password, image) => {
       } else {
         dispatch(profileEdited(user));
         sessionStorage.setItem('user', JSON.stringify(user));
-        dispatch(reset());
       }
     } catch (error) {
       dispatch(profileNotEdited());
@@ -193,6 +198,7 @@ const articleNotEdited = () => ({
 export const asyncEditArticle = (token, title, description, body, tagList, slug) => {
   return async function inside(dispatch) {
     try {
+      dispatch(reset());
       await editArticle(token, title, description, body, tagList, slug);
       dispatch(articleEdited());
     } catch(error) {
@@ -207,10 +213,6 @@ const articleDeleted = () => ({
 
 const articleNotDeleted = () => ({
   type: ARTICLE_NOT_DELETED,
-})
-
-const articleDeleteLoading = () => ({
-  type: ARTICLE_DELETE_LOADING,
 })
 
 export const asyncDeleteArticle = (token, slug) =>{

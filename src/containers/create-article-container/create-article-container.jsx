@@ -6,12 +6,13 @@ const mapStateToProps = (state) => ({
   article: state.lastOpenedArticle,
   user: state.user,
   successCreating: state.successCreatingArticle,
+  error: state.error,
   // errorCreating: state.errorRegistrationOrAuthentication,
 });
 
 const mapDispatchToProps = {
-  asyncCreateArticleWithDispatch: asyncCreateArticle,
-  resetWithDispatch: reset,
+  asyncCreateArticle: asyncCreateArticle,
+  reset: reset,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArticle);

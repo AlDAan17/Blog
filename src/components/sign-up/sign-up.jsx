@@ -1,8 +1,10 @@
 import React, {useEffect} from "react";
+import PropTypes from 'prop-types';
 import './sign-up.scss';
 import "antd/dist/antd.css";
-import {Form, Input, Checkbox, Button, Alert} from "antd";
+import { Form, Input, Checkbox, Button, Alert, message } from 'antd';
 import {Link, Redirect} from "react-router-dom";
+import SignIn from '../sign-in';
 
 const formItemLayout = {
     labelCol: {
@@ -20,16 +22,20 @@ const tailFormItemLayout = {
     }
 };
 
-const SignUp = ({ asyncRegistrationWithDispatch, serverValidations, user }) => {
+const SignUp = ({ asyncRegistration, serverValidations, user, error }) => {
 
     const [form] = Form.useForm();
 
     const onFinish = ({Username, email, password}) => {
-        asyncRegistrationWithDispatch(Username, email, password);
+        asyncRegistration(Username, email, password);
     };
 
     if (Object.keys(user).length) {
         return <Redirect to='/' />;
+    }
+
+    if(error){
+        message.error('Cannot connect to server');
     }
 
     return (
@@ -155,5 +161,12 @@ const SignUp = ({ asyncRegistrationWithDispatch, serverValidations, user }) => {
         </Form>
     );
 };
+
+SignUp.propTypes = {
+    asyncRegistration: PropTypes.func.isRequired,
+    serverValidations: PropTypes.string.isRequired,
+    error: PropTypes.bool.isRequired,
+    user:PropTypes.object.isRequired,
+}
 
 export default SignUp;

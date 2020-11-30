@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './create-article.scss';
-import { Form, Input, Button, Alert } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const formItemLayout = {
   labelCol: {
@@ -27,32 +28,40 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, successCreating, errorCreating, mission, article, asyncEditArticleWithDispatch, successEditing }) => {
-  const {slug} = article;
-
+const CreateArticle = ({ article, user, successCreating, error, asyncCreateArticle, reset, mission,  asyncEditArticle, successEditing }) => {
   useEffect(() => {
-    return resetWithDispatch;
-  }, [resetWithDispatch]);
+    return reset;
+  }, [reset]);
 
+  const {slug} = article;
   const [form] = Form.useForm();
 
   const onFinish = ({ title, shortDescription, text, tagList }) => {
-    mission === 'edit' ? asyncEditArticleWithDispatch(user.token, title, shortDescription, text, tagList, slug)
+    if(error){
+      message.error('Failed');
+    }
+    mission === 'edit' ?
+      asyncEditArticle(user.token, title, shortDescription, text, tagList, slug)
       :
-    asyncCreateArticleWithDispatch(user.token, title, shortDescription, text, tagList);
+      asyncCreateArticle(user.token, title, shortDescription, text, tagList);
   };
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in"/>;
   }
 
+  if(error){
+    message.error('Failed');
+  }
+
   if (successCreating || successEditing) {
+    message.success('Success');
     return <Redirect to="/"/>;
   }
 
   const head = mission === "edit" ? 'Edit Article' : 'Create new article';
 
-  const initialValues = mission === 'edit'? {
+  const initialValues = mission === 'edit' ? {
     title: article.title,
     shortDescription: article.description,
     text: article.body,
@@ -69,7 +78,6 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
       scrollToFirstError
       initialValues={initialValues}
     >
-      {errorCreating && <Alert message={errorCreating} type="warning" showIcon style={{ marginBottom: 30 }}/>}
       <h2>{head}</h2>
       <Form.Item
         name="title"
@@ -181,4 +189,24 @@ const EditProfile = ({ asyncCreateArticleWithDispatch, resetWithDispatch, user, 
   );
 };
 
-export default EditProfile;
+CreateArticle.propTypes = {
+  asyncCreateArticle: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+  successCreating: PropTypes.bool.isRequired,
+  errorCreating: PropTypes.bool,
+  asyncEditArticle:PropTypes.func,
+  successEditing: PropTypes.bool,
+  mission: PropTypes.string,
+};
+
+export default CreateArticle;

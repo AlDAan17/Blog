@@ -6,6 +6,7 @@ const mapStateToProps = (state) => ({
     user: state.user,
     serverValidations: state.serverValidations,
     successEditing: state.successEditingProfile,
+    error: state.error,
 });
 
 const mapDispatchToProps = {

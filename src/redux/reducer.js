@@ -10,7 +10,12 @@ import {
   ARTICLE_CREATED,
   ARTICLE_EDITED,
   ARTICLE_RECEIVED,
-  ARTICLE_NOT_RECEIVED, ARTICLE_DELETED, ARTICLE_NOT_DELETED,
+  ARTICLE_NOT_RECEIVED,
+  ARTICLE_DELETED,
+  ARTICLE_NOT_DELETED,
+  ARTICLE_NOT_CREATED,
+  ARTICLE_NOT_EDITED,
+  PROFILE_NOT_EDITED, AUTH_NOT_COMPLETED,
 } from './action-types';
 
 const successfullDownload = (state = false, action) =>{
@@ -36,6 +41,12 @@ const data = (state = { articles: [], page: 1}, action) =>{
 const error = (state = false, action) =>{
   switch (action.type) {
     case ARTICLES_NOT_RECEIVED:
+    case ARTICLE_NOT_RECEIVED:
+    case ARTICLE_NOT_CREATED:
+    case ARTICLE_NOT_EDITED:
+    case PROFILE_NOT_EDITED:
+    case AUTH_NOT_COMPLETED:
+    // case ARTICLE_NOT_DELETED:
       return true;
     case RESET:
       return false;
@@ -106,6 +117,7 @@ const deletingArticle = (state = false, action) =>{
     case ARTICLE_DELETED:
       return true;
     case ARTICLE_NOT_DELETED:
+    case RESET:
       return false;
     default:
       return state;
@@ -140,8 +152,8 @@ const reducer = combineReducers({
   lastOpenedArticle,
   serverValidations,
   successEditingProfile,
-  successCreatingArticle,
   successEditingArticle,
+  successCreatingArticle,
   successGettingArticle,
   deletingArticle
 });
