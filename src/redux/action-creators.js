@@ -12,7 +12,11 @@ import {
   ARTICLE_EDITED,
   ARTICLE_NOT_EDITED,
   ARTICLE_RECEIVED,
-  ARTICLE_NOT_RECEIVED, ARTICLE_DELETED, ARTICLE_NOT_DELETED, ARTICLE_DELETE_LOADING, AUTH_NOT_COMPLETED,
+  ARTICLE_NOT_RECEIVED,
+  ARTICLE_DELETED,
+  ARTICLE_NOT_DELETED,
+  FAVORITE_ARTICLE_NOT_ADDED,
+  AUTH_NOT_COMPLETED, FAVORITE_ARTICLE_RESET,
 } from './action-types';
 import {
   getArticlesFromAPI,
@@ -20,7 +24,7 @@ import {
   authentication,
   editProfile,
   createArticle,
-  editArticle, getArticleFromAPI, deleteArticle,
+  editArticle, getArticleFromAPI, deleteArticle, estimateArticle,
 } from '../services/article-service';
 
 export const reset = () => ({
@@ -37,11 +41,11 @@ const articlesNotReceived = () => ({
   type: ARTICLES_NOT_RECEIVED,
 })
 
-export const asyncGetArticles = (page) => {
-  return async function(dispatch) {
+export const asyncGetArticles = (token, page) => {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
-      const response = await getArticlesFromAPI(page);
+      const response = await getArticlesFromAPI(token, page);
       const {articles} = response;
       dispatch(articlesReceived(articles, page));
     } catch (error) {
@@ -58,11 +62,11 @@ const articleNotReceived = () => ({
   type: ARTICLE_NOT_RECEIVED,
 });
 
-export const asyncGetArticle = (slug) => {
+export const asyncGetArticle = (token, slug) => {
   return async function inside(dispatch) {
     try {
       dispatch(reset());
-      const response = await getArticleFromAPI(slug);
+      const response = await getArticleFromAPI(token, slug);
       const { article } = response;
       dispatch(articleReceived(article));
     } catch (error) {
@@ -86,7 +90,7 @@ const serverValidationsReceived = (text) => ({
 })
 
 export const asyncRegistration = (username, email, password) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
       const response = await registration(username, email, password);
@@ -107,7 +111,7 @@ export const asyncRegistration = (username, email, password) => {
 }
 
 export const asyncAuthentication = (email, password) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
       const response = await authentication(email, password);
@@ -130,7 +134,7 @@ const logOut = () => ({
 })
 
 export const logOutAndRemoveStorage = () => {
-  return function (dispatch) {
+  return async function inside(dispatch) {
     sessionStorage.removeItem("user");
     dispatch(logOut());
   }
@@ -218,11 +222,30 @@ const articleNotDeleted = () => ({
 export const asyncDeleteArticle = (token, slug) =>{
   return async function inside(dispatch){
     try{
-      // dispatch(articleDeleteLoading());
       await deleteArticle(token, slug);
       dispatch (articleDeleted());
     }catch (err) {
       dispatch(articleNotDeleted());
+    }
+  }
+}
+
+const favoriteArticleNotAdded = () => ({
+  type: FAVORITE_ARTICLE_NOT_ADDED,
+})
+
+const favoriteArticleReset = () => ({
+  type: FAVORITE_ARTICLE_RESET,
+})
+
+export const asyncEstimateArticle = (token, slug, isFavorite) => {
+  return async function inside(dispatch) {
+    try {
+      dispatch(favoriteArticleReset());
+      await estimateArticle(token, slug, isFavorite);
+
+    } catch(error) {
+      dispatch(favoriteArticleNotAdded());
     }
   }
 }

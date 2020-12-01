@@ -1,23 +1,32 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Article from '../article';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Redirect } from 'react-router-dom';
 import { Alert } from 'antd';
-import { asyncGetArticle } from '../../redux/action-creators';
+import Article from '../article';
 
 const isMyArticle = (authorName) => {
   const myUserName = JSON.parse(sessionStorage.getItem('user'))?.username;
   return authorName === myUserName;
 };
 
-const ArticlePage = ({ user, match, article, successGettingArticle, error, deletingArticle, asyncDeleteArticle, asyncGetArticle }) => {
-  console.log('article', article);
+const ArticlePage = (props) => {
+  const { user,
+    match,
+    article,
+    successGettingArticle,
+    error,
+    deletingArticle,
+    asyncDeleteArticle,
+    asyncGetArticle,
+    asyncEstimateArticle,
+    errorFavoritingArticle,
+  } = props;
   const { slug } = match.params;
 
   useEffect(() => {
-    asyncGetArticle(slug);
-  }, [asyncGetArticle, slug]);
+    asyncGetArticle(user.token, slug);
+  }, [user.token, asyncGetArticle, slug]);
 
   if (error) {
     return <Alert className="alert" message="Article does not exist" type="error" />;
@@ -31,16 +40,28 @@ const ArticlePage = ({ user, match, article, successGettingArticle, error, delet
     return <Redirect to="/"/>;
   }
 
+  const articleFavoriteHandler = user.token ? (isFavorite, articleSlug) => asyncEstimateArticle(user.token, articleSlug, isFavorite) : () => {};
+
   const {
     author: { username },
   } = article;
+
 
   return <Article {...article} isList={false}
                   showEditArticle={isMyArticle(username)}
                   asyncDeleteArticle={() => asyncDeleteArticle(user.token, slug)}
                   deletingArticle={deletingArticle}
+                  articleFavoriteHandler={articleFavoriteHandler}
+                  disableFavoritingArticle={!user.token}
+                  errorFavoritingArticle={errorFavoritingArticle}
   />;
 };
+
+// ArticlePage.defaultProps = {
+//   article: PropTypes.shape({
+//     slug: ''
+//   }),
+// }
 
 ArticlePage.propTypes = {
   article: PropTypes.shape({
@@ -51,7 +72,6 @@ ArticlePage.propTypes = {
     tagList: PropTypes.arrayOf(PropTypes.string),
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
-    favorited: PropTypes.bool.isRequired,
     favoritesCount: PropTypes.number.isRequired,
     author: PropTypes.shape({
       username: PropTypes.string,
@@ -81,6 +101,8 @@ ArticlePage.propTypes = {
   successGettingArticle: PropTypes.bool.isRequired,
   asyncDeleteArticle: PropTypes.func.isRequired,
   asyncGetArticle: PropTypes.func.isRequired,
+  asyncEstimateArticle: PropTypes.func.isRequired,
+  errorFavoritingArticle: PropTypes.bool.isRequired,
 };
 
 export default ArticlePage;

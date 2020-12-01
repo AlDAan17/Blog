@@ -43,15 +43,19 @@
       margin-right: 5px;
     }
 
+    .heart__active{
+      background: url("../../icons/heart-active.png") no-repeat;
+    }
+
     .heart__checkbox {
       margin: 0;
       width: 0;
       height: 0;
       opacity: 0;
 
-      &:checked ~ .heart {
-        background: url("../../icons/heart-active.png") no-repeat;
-      }
+      //&:checked ~ .heart {
+      //  background: url("../../icons/heart-active.png") no-repeat;
+      //}
     }
 
     .article__container{

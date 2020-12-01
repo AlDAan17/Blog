@@ -15,7 +15,10 @@ import {
   ARTICLE_NOT_DELETED,
   ARTICLE_NOT_CREATED,
   ARTICLE_NOT_EDITED,
-  PROFILE_NOT_EDITED, AUTH_NOT_COMPLETED,
+  PROFILE_NOT_EDITED,
+  AUTH_NOT_COMPLETED,
+  FAVORITE_ARTICLE_RESET,
+  FAVORITE_ARTICLE_NOT_ADDED,
 } from './action-types';
 
 const successfullDownload = (state = false, action) =>{
@@ -144,6 +147,17 @@ const lastOpenedArticle = (state = {}, action) => {
   }
 }
 
+function errorFavoritingArticle(state = false, action) {
+  switch(action.type) {
+    case FAVORITE_ARTICLE_NOT_ADDED:
+      return true;
+    case FAVORITE_ARTICLE_RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successfullDownload,
@@ -155,7 +169,8 @@ const reducer = combineReducers({
   successEditingArticle,
   successCreatingArticle,
   successGettingArticle,
-  deletingArticle
+  deletingArticle,
+  errorFavoritingArticle,
 });
 
 export default reducer;
