@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import CreateArticle from '../../containers/create-article-container/create-article-container';
+import { message } from 'antd';
+import ArticleForm from '../../subcomponents/article-form';
 
-const EditArticle = ({ match, user, successEditing, asyncGetArticle, reset, asyncEditArticle }) => {
+const EditArticle = ({article, match, user, successEditing, asyncGetArticle, reset, asyncEditArticle, error, successGettingArticle }) => {
+
   const {
     params: { slug },
   } = match;
@@ -17,8 +19,20 @@ const EditArticle = ({ match, user, successEditing, asyncGetArticle, reset, asyn
     return <Redirect to="/sign-in" />;
   }
 
+  if (successEditing) {
+    message.success('Success');
+    return <Redirect to="/"/>;
+  }
+
   return(
-    <CreateArticle mission="edit" asyncEditArticle={asyncEditArticle} successEditing={successEditing}/>
+    <ArticleForm article={article}
+                 user={user}
+                 error={error}
+                 successGettingArticle={successGettingArticle}
+                 mission="edit"
+                 asyncEditArticle={asyncEditArticle}
+                 successEditing={successEditing}
+    />
   )
 }
 
@@ -42,15 +56,15 @@ EditArticle.propTypes = {
     token: PropTypes.string,
   }).isRequired,
   article: PropTypes.shape({
-    slug: PropTypes.string.isRequired,
+    slug: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
     body: PropTypes.string,
     tagList: PropTypes.arrayOf(PropTypes.string),
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
-    favorited: PropTypes.bool.isRequired,
-    favoritesCount: PropTypes.number.isRequired,
+    favorited: PropTypes.bool,
+    favoritesCount: PropTypes.number,
     author: PropTypes.shape({
       username: PropTypes.string,
       bio: PropTypes.string,
@@ -60,6 +74,8 @@ EditArticle.propTypes = {
   }).isRequired,
   reset: PropTypes.func.isRequired,
   successEditing: PropTypes.bool.isRequired,
+  successGettingArticle: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
 };
 
 export default EditArticle;

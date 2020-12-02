@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
 import { Popconfirm } from 'antd';
-import UserDataWithAvatar from '../../utils/user-data-with-avatar';
+import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
+
+let idTag = 100;
 
 const mapTags = (tags) => {
-  return tags.map((tag) => <p className="article__tag">{tag}</p>);
+   return tags.map((tag) => <p key={idTag+=1} className="article__tag">{tag}</p>);
 };
 
 const Article = (props) => {

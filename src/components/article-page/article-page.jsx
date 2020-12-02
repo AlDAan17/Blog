@@ -57,15 +57,9 @@ const ArticlePage = (props) => {
   />;
 };
 
-// ArticlePage.defaultProps = {
-//   article: PropTypes.shape({
-//     slug: ''
-//   }),
-// }
-
 ArticlePage.propTypes = {
   article: PropTypes.shape({
-    slug: PropTypes.string.isRequired,
+    slug: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
     body: PropTypes.string,
