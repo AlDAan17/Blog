@@ -96,9 +96,9 @@ export const asyncRegistration = (username, email, password) => {
       const response = await registration(username, email, password);
       const { user, errors } = response;
       if (errors) {
-        const part1 = errors.username ? 'Username has already been taken' : '';
-        const part2 = errors.email ? 'Email has already been taken' : '';
-        const text = `${part1}\n${part2}`;
+        const usernameError = errors.username ? 'Username has already been taken' : '';
+        const emailError = errors.email ? 'Email has already been taken' : '';
+        const text = `${usernameError}\n${emailError}`;
         dispatch(serverValidationsReceived(text));
       } else {
         dispatch(authCompleted(user));
@@ -157,9 +157,9 @@ export const asyncEditProfile = (token, username, email, password, image) => {
       const { user, errors } = response;
       if (errors) {
         dispatch(reset());
-        const part1 = errors.username ? 'This username is busy' : '';
-        const part2 = errors.email ? 'This email is busy' : '';
-        const text = `${part1}\n${part2}`;
+        const usernameError = errors.username ? 'This username is busy' : '';
+        const emailError = errors.email ? 'This email is busy' : '';
+        const text = `${usernameError}\n${emailError}`;
         dispatch(serverValidationsReceived(text));
       } else {
         dispatch(profileEdited(user));

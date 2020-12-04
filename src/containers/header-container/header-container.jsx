@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import Header from '../../components/header';
 import { logOutAndRemoveStorage } from '../../redux/action-creators';
+import { getUser } from '../../redux/users-selectors';
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: getUser(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

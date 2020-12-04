@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import SignIn from '../../components/sign-in';
 import { asyncAuthentication } from '../../redux/action-creators';
+import { getError, getServerValidations, getUser } from '../../redux/users-selectors';
 
 const mapStateToProps = (state) => ({
-    serverValidations: state.serverValidations,
-    user: state.user,
-    error: state.error,
+    user: getUser(state),
+    serverValidations: getServerValidations(state),
+    error: getError(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

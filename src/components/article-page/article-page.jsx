@@ -66,7 +66,7 @@ ArticlePage.propTypes = {
     tagList: PropTypes.arrayOf(PropTypes.string),
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
-    favoritesCount: PropTypes.number.isRequired,
+    favoritesCount: PropTypes.number,
     author: PropTypes.shape({
       username: PropTypes.string,
       bio: PropTypes.string,

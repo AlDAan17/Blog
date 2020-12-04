@@ -1,4 +1,6 @@
 import request from './request';
+const url = 'https://conduit.productionready.io/api';
+
 
 export function getArticlesFromAPI(token, page) {
   const options = {
@@ -8,7 +10,7 @@ export function getArticlesFromAPI(token, page) {
       Authorization: token ? `Token ${token}` : '',
     },
   }
-  return request(`https://conduit.productionready.io/api/articles?limit=10&offset=${(page - 1) * 10}`, options);
+  return request(`${url}/articles?limit=10&offset=${(page - 1) * 10}`, options);
 }
 
 export function getArticleFromAPI(token, slug) {
@@ -19,7 +21,7 @@ export function getArticleFromAPI(token, slug) {
       Authorization: token ? `Token ${token}` : '',
     },
   }
-  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+  return request(`${url}/articles/${slug}`, options);
 }
 
 export function registration(username, email, password) {
@@ -37,7 +39,7 @@ export function registration(username, email, password) {
     },
     body: JSON.stringify(body),
   };
-  return request('https://conduit.productionready.io/api/users', options);
+  return request(`${url}/users`, options);
 }
 
 export function authentication(email, password) {
@@ -54,7 +56,7 @@ export function authentication(email, password) {
     },
     body: JSON.stringify(body),
   };
-  return request('https://conduit.productionready.io/api/users/login', options);
+  return request(`${url}/users/login`, options);
 }
 
 export function editProfile(token, username, email, password, image) {
@@ -74,7 +76,7 @@ export function editProfile(token, username, email, password, image) {
     },
     body: JSON.stringify(body),
   };
-  return request('https://conduit.productionready.io/api/user', options);
+  return request(`${url}/user`, options);
 }
 
 export function createArticle(token, title, description, body, tagList) {
@@ -94,7 +96,7 @@ export function createArticle(token, title, description, body, tagList) {
     },
     body: JSON.stringify(requestBody),
   };
-  return request('https://conduit.productionready.io/api/articles', options);
+  return request(`${url}/articles`, options);
 }
 
 export function editArticle(token, title, description, body, tagList, slug) {
@@ -114,7 +116,7 @@ export function editArticle(token, title, description, body, tagList, slug) {
     },
     body: JSON.stringify(requestBody),
   };
-  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+  return request(`${url}/articles/${slug}`, options);
 }
 
 export function deleteArticle(token, slug) {
@@ -125,7 +127,7 @@ export function deleteArticle(token, slug) {
       Authorization: `Token ${token}`,
     },
   };
-  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+  return request(`${url}/articles/${slug}`, options);
 }
 
 export function estimateArticle(token, slug, isFavorite) {
@@ -136,5 +138,5 @@ export function estimateArticle(token, slug, isFavorite) {
       Authorization: `Token ${token}`,
     },
   }
-  return request(`https://conduit.productionready.io/api/articles/${slug}/favorite`, options);
+  return request(`${url}/articles/${slug}/favorite`, options);
 }

@@ -4,7 +4,7 @@ import './create-article.scss';
 import { message } from 'antd';
 import {Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ArticleForm from '../../subcomponents/article-form';
+import ArticleForm from '../../shared/article-form';
 
 const CreateArticle = ({ article, user, successCreating, error, asyncCreateArticle, reset }) => {
   useEffect(() => {

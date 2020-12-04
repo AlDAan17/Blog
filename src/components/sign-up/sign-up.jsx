@@ -92,7 +92,6 @@ const SignUp = ({ asyncRegistration, serverValidations, user, error }) => {
                     () => ({
                         validator(rule, value) {
                             if (value.length < 6 || value.length > 16) {
-                                // eslint-disable-next-line prefer-promise-reject-errors
                                 return Promise.reject(
                                     "Your password needs to be at least 6 and shorter then 16 characters."
                                 );

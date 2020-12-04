@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { message } from 'antd';
-import ArticleForm from '../../subcomponents/article-form';
+import ArticleForm from '../../shared/article-form';
 
 const EditArticle = ({article, match, user, successEditing, asyncGetArticle, reset, asyncEditArticle, error, successGettingArticle }) => {
 

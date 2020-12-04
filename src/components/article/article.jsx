@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
 import { Popconfirm } from 'antd';
-import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
+import UserDataWithAvatar from '../../shared/user-data-with-avatar';
 
 let idTag = 100;
 
