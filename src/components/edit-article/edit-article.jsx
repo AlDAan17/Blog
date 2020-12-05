@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { message } from 'antd';
 import ArticleForm from '../../shared/article-form';
+import { LoadingOutlined } from '@ant-design/icons';
 
-const EditArticle = ({article, match, user, successEditing, asyncGetArticle, reset, asyncEditArticle, error, successGettingArticle }) => {
+const EditArticle = ({ article, match, user, successEditing, asyncGetArticle, reset, asyncEditArticle, error, successGettingArticle }) => {
 
   const {
     params: { slug },
@@ -16,15 +17,17 @@ const EditArticle = ({article, match, user, successEditing, asyncGetArticle, res
   }, [user.token, asyncGetArticle, reset, slug]);
 
   if (!Object.keys(user).length) {
-    return <Redirect to="/sign-in" />;
+    return <Redirect to="/sign-in"/>;
+  }
+  if (!successGettingArticle) {
+    if (successEditing) {
+      message.success('Success');
+      return <Redirect to="/"/>;
+    }
+    return <LoadingOutlined className="spinner" spin />;
   }
 
-  if (successEditing) {
-    message.success('Success');
-    return <Redirect to="/"/>;
-  }
-
-  return(
+  return (
     <ArticleForm article={article}
                  user={user}
                  error={error}
@@ -33,8 +36,8 @@ const EditArticle = ({article, match, user, successEditing, asyncGetArticle, res
                  asyncEditArticle={asyncEditArticle}
                  successEditing={successEditing}
     />
-  )
-}
+  );
+};
 
 EditArticle.propTypes = {
   match: PropTypes.shape({

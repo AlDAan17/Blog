@@ -1,49 +1,36 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
-import UserDataWithAvatar from '../../shared/user-data-with-avatar';
+import { Link } from 'react-router-dom';
 import './header.scss';
+import AuthUser from './AuthUser';
+import NotAuthUser from './NotAuthUser';
 
-const Header = ({user, logOutAndRemoveStorage}) => {
-    return (
-        <header>
-            <Link to='/' className="title">Realworld Blog</Link>
-            <div>
-                {user.username ?
-                    <>
-                        <Link className="create" to="/new-article">
-                            Create article
-                        </Link>
-                        <Link to="/profile">
-                            <UserDataWithAvatar username={user.username} imageSrc={user.image} className="user"/>
-                        </Link>
-                        <Link to="/" className="log-out" onClick={logOutAndRemoveStorage}>
-                            Log Out
-                        </Link>
-                    </>
-                    :
-                    <>
-                        <Link to='/sign-in' className="sign-in">Sign In</Link>
-                        <Link to='/sign-up' className="sign-up">Sign Up</Link>
-                    </>
-                }
-            </div>
-        </header>
-    )
-}
+const Header = ({ user, logOutAndRemoveStorage }) => {
+  return (
+    <header>
+      <Link to='/' className="title">Realworld Blog</Link>
+      <div>
+        {user.username ?
+          <AuthUser user={user} logOutAndRemoveStorage={logOutAndRemoveStorage}/>
+          :
+          <NotAuthUser/>
+        }
+      </div>
+    </header>
+  );
+};
 
 Header.propTypes = {
-    user: PropTypes.shape({
-        id: PropTypes.number,
-        email: PropTypes.string,
-        createdAt: PropTypes.string,
-        updatedAt: PropTypes.string,
-        username: PropTypes.string,
-        bio: PropTypes.string,
-        image: PropTypes.string,
-        token: PropTypes.string,
-    }).isRequired,
-    logOutAndRemoveStorage: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
 };
 
 export default Header;

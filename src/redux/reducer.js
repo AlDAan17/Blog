@@ -63,6 +63,7 @@ const userInitial = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.g
 const user = (state = userInitial, action) =>{
   switch (action.type) {
     case AUTH_COMPLETED:
+    case PROFILE_EDITED:
       return {...action.user};
     case LOG_OUT:
       return {};

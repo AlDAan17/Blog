@@ -5,8 +5,9 @@ import { message } from 'antd';
 import {Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ArticleForm from '../../shared/article-form';
+import { LoadingOutlined } from '@ant-design/icons';
 
-const CreateArticle = ({ article, user, successCreating, error, asyncCreateArticle, reset }) => {
+const CreateArticle = ({ article, user, successCreating, error, asyncCreateArticle, reset, successfullDownload }) => {
   useEffect(() => {
     return reset;
   }, [reset]);
@@ -18,10 +19,12 @@ const CreateArticle = ({ article, user, successCreating, error, asyncCreateArtic
   if(error){
     message.error('Failed');
   }
-
-  if (successCreating) {
-    message.success('Success');
-    return <Redirect to="/"/>;
+  if(!successfullDownload) {
+    if (successCreating) {
+      message.success('Success');
+      return <Redirect to="/"/>;
+    }
+    return <LoadingOutlined className="spinner" spin />;
   }
 
   return (
